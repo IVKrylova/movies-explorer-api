@@ -1,12 +1,17 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // подключаем логгер запросов
 app.use(requestLogger);
@@ -16,6 +21,9 @@ app.use(routes);
 
 // подключаем логгер ошибок
 app.use(errorLogger);
+
+// обработчик ошибок celebrate
+app.use(errors());
 
 async function main() {
   await mongoose.connect('mongodb://localhost:27017/moviesdb');
