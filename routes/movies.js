@@ -30,9 +30,9 @@ router.post('/movies', celebrate({
 }), createMovie);
 
 // удаляет сохранённый фильм по id
-router.delete('/movies/_id', celebrate({
+router.delete('/movies/:_id', celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().length(24).hex().required(),
+    _id: Joi.string().length(24).hex().required(),
   }),
 }), deleteMovie);
 

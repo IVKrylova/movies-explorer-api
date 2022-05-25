@@ -6,14 +6,6 @@ const usersRoutes = require('./users');
 const moviesRoutes = require('./movies');
 const { NotFoundError } = require('../utils/NotFoundError');
 
-// роут для авторизации пользователя
-router.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), login);
-
 // роут для регистрации пользователя
 router.post('/signup', celebrate({
   body: Joi.object().keys({
@@ -22,6 +14,14 @@ router.post('/signup', celebrate({
     name: Joi.string().min(2).max(30).required(),
   }),
 }), createUser);
+
+// роут для авторизации пользователя
+router.post('/signin', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  }),
+}), login);
 
 // авторизация
 router.use(auth);
