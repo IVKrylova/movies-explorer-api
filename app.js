@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const errorHandler = require('./middlewares/errorHandler');
 
 const { PORT = 3000 } = process.env;
 
@@ -24,6 +25,9 @@ app.use(errorLogger);
 
 // обработчик ошибок celebrate
 app.use(errors());
+
+// обработка ошибок
+app.use(errorHandler);
 
 async function main() {
   await mongoose.connect('mongodb://localhost:27017/moviesdb');
