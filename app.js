@@ -7,6 +7,7 @@ const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errorHandler');
+const corsHandler = require('./middlewares/corsHandler');
 
 const { PORT = 3000 } = process.env;
 
@@ -20,6 +21,9 @@ app.use(bodyParser.json());
 
 // подключаем логгер запросов
 app.use(requestLogger);
+
+// CORS
+app.use(corsHandler);
 
 // все роуты приложения
 app.use(routes);
