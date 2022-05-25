@@ -1,8 +1,7 @@
+const { NODE_ENV, JWT_SECRET } = process.env;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-
-const { NODE_ENV, JWT_SECRET } = process.env;
 const { checkRes } = require('../utils/utils');
 const { BadRequestError } = require('../utils/BadRequestError');
 const { NotFoundError } = require('../utils/NotFoundError');
@@ -19,7 +18,7 @@ module.exports.getUser = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные'));
       } if (err.statusCode === 404 || err.name === 'NotFoundError') {
-        next(new NotFoundError('Пользователь по указанному _id не найден'));
+        next(new NotFoundError('Пользователь с указанным _id не найден'));
       } else {
         next(err);
       }
