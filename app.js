@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
 const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -10,6 +11,9 @@ const errorHandler = require('./middlewares/errorHandler');
 const { PORT = 3000 } = process.env;
 
 const app = express();
+
+// защита приложения от веб-уязвимостей путем соответствующей настройки заголовков HTTP
+app.use(helmet());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
