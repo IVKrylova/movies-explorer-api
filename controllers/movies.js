@@ -8,13 +8,12 @@ const { ForbiddenError } = require('../utils/ForbiddenError');
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
     .then((movie) => {
-      movie.reverse();
       res.send({ data: movie });
     })
     .catch(next);
 };
 
-// создаем фильм
+// создаем сохраненный фильм в нашей БД
 module.exports.createMovie = (req, res, next) => {
   const {
     country,
@@ -48,7 +47,7 @@ module.exports.createMovie = (req, res, next) => {
     .then((movie) => res.send({ data: movie }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при создании карточки'));
+        next(new BadRequestError('Переданы некорректные данные при сохранении фильма'));
       } else {
         next(err);
       }
@@ -61,7 +60,7 @@ module.exports.deleteMovie = (req, res, next) => {
     .then((data) => checkRes(data))
     .then((movie) => {
       if (req.user._id !== movie.owner.toString()) {
-        throw new ForbiddenError('Попытка удалить чужую карточку');
+        throw new ForbiddenError('Попытка удалить фильм, сохраненный другим пользователем');
       }
       return movie;
     })
@@ -71,7 +70,7 @@ module.exports.deleteMovie = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные'));
       } else if (err.statusCode === 404 || err.name === 'NotFoundError') {
-        next(new NotFoundError('Карточка с указанным _id не найдена'));
+        next(new NotFoundError('Фильм с указанным _id не найден'));
       } else {
         next(err);
       }
