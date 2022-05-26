@@ -9,7 +9,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errorHandler');
 const corsHandler = require('./middlewares/corsHandler');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, MONGODB_URL } = process.env;
 
 const app = express();
 
@@ -38,7 +38,7 @@ app.use(errors());
 app.use(errorHandler);
 
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/moviesdb');
+  await mongoose.connect(MONGODB_URL);
 
   app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
