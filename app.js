@@ -41,7 +41,6 @@ async function main() {
   await mongoose.connect('mongodb://localhost:27017/moviesdb');
 
   app.listen(PORT, () => {
-    // eslint-disable-next-line no-console
     console.log(`App listening on port ${PORT}`);
   });
 }
