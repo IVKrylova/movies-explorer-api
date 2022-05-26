@@ -8,6 +8,7 @@ const routes = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errorHandler');
 const corsHandler = require('./middlewares/corsHandler');
+const limiter = require('./utils/limiter');
 
 const { PORT = 3000, MONGODB_URL } = process.env;
 
@@ -18,6 +19,9 @@ app.use(helmet());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// лимит запросов
+app.use(limiter);
 
 // подключаем логгер запросов
 app.use(requestLogger);
