@@ -9,8 +9,9 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errorHandler');
 const corsHandler = require('./middlewares/corsHandler');
 const limiter = require('./utils/limiter');
+const { MONGODB_URL_DEV } = require('./utils/constants');
 
-const { PORT = 3000, MONGODB_URL } = process.env;
+const { PORT = 3000, MONGODB_URL, NODE_ENV } = process.env;
 
 const app = express();
 
@@ -42,7 +43,7 @@ app.use(errors());
 app.use(errorHandler);
 
 async function main() {
-  await mongoose.connect(MONGODB_URL);
+  await mongoose.connect(NODE_ENV === 'production' ? MONGODB_URL : MONGODB_URL_DEV);
 
   app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
