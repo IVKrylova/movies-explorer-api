@@ -21,9 +21,7 @@ module.exports.getUser = (req, res, next) => {
     .then((data) => checkRes(data))
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError(BAD_REQUEST_MESSAGE));
-      } if (err.statusCode === 404 || err.name === 'NotFoundError') {
+      if (err.statusCode === 404 || err.name === 'NotFoundError') {
         next(new NotFoundError(NOT_FOUND_MESSAGE));
       } else {
         next(err);
@@ -82,32 +80,6 @@ module.exports.createUser = (req, res, next) => {
         next(err);
       }
     });
-
-
-  /* User.findOne({ email })
-    .then((user) => {
-      if (user) {
-        throw new ConflictError(CONFLICT_MESSAGE);
-      } else {
-        return bcrypt.hash(password, 10);
-      }
-    })
-    .then((hash) => User.create({
-      email,
-      password: hash,
-      name,
-    }))
-    .then((user) => res.send({
-      email: user.email,
-      name: user.name,
-    }))
-    .catch((err) => {
-      if (err.statusCode === 404 || err.name === 'ValidationError') {
-        next(new BadRequestError(BAD_REQUEST_MESSAGE));
-      } else {
-        next(err);
-      }
-    }); */
 };
 
 // вход в приложение
