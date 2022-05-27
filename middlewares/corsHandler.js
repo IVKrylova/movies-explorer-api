@@ -5,6 +5,7 @@ const allowedCors = [
   'http://localhost:3000',
   'https://localhost:3000',
 ];
+const { DEFAULT_ALLOWED_METHODS } = require('../utils/constants');
 
 const corsHandler = (req, res, next) => {
   // сохраняем источник запроса в переменную origin
@@ -20,8 +21,6 @@ const corsHandler = (req, res, next) => {
 
   // сохраняем тип запроса (HTTP-метод) в соответствующую переменную
   const { method } = req;
-  // значение для заголовка Access-Control-Allow-Methods по умолчанию (разрешены все типы запросов)
-  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
   // сохраняем список заголовков исходного запроса
   const requestHeaders = req.headers['access-control-request-headers'];
 

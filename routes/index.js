@@ -12,6 +12,7 @@ const {
   createUserValidation,
   loginValidation,
 } = require('../utils/celebrateValidation');
+const { WRONG_PATH_MESSAGE } = require('../utils/constants');
 
 // роут для регистрации пользователя
 router.post('/signup', celebrate(createUserValidation), createUser);
@@ -28,7 +29,7 @@ router.use(moviesRoutes);
 
 // oбработка неправильного пути
 router.use((req, res, next) => {
-  next(new NotFoundError('Страница не найдена'));
+  next(new NotFoundError(WRONG_PATH_MESSAGE));
 });
 
 module.exports = router;

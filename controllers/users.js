@@ -6,6 +6,12 @@ const { checkRes } = require('../utils/utils');
 const { BadRequestError } = require('../utils/BadRequestError');
 const { NotFoundError } = require('../utils/NotFoundError');
 const { ConflictError } = require('../utils/ConflictError');
+const {
+  DEV_SECRET,
+  BAD_REQUEST_MESSAGE,
+  NOT_FOUND_MESSAGE,
+  CONFLICT_MESSAGE,
+} = require('../utils/constants');
 
 // получаем пользователя по id
 module.exports.getUser = (req, res, next) => {
@@ -16,9 +22,9 @@ module.exports.getUser = (req, res, next) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные'));
+        next(new BadRequestError(BAD_REQUEST_MESSAGE));
       } if (err.statusCode === 404 || err.name === 'NotFoundError') {
-        next(new NotFoundError('Пользователь с указанным _id не найден'));
+        next(new NotFoundError(NOT_FOUND_MESSAGE));
       } else {
         next(err);
       }
@@ -38,11 +44,11 @@ module.exports.updateProfile = (req, res, next) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при обновлении профиля'));
+        next(new BadRequestError(BAD_REQUEST_MESSAGE));
       } else if (err.statusCode === 404 || err.name === 'NotFoundError') {
-        next(new NotFoundError('Пользователь с указанным _id не найден'));
+        next(new NotFoundError(NOT_FOUND_MESSAGE));
       } else if (err.code === 11000) {
-        next(new ConflictError('Указанный email уже зарегистрирован'));
+        next(new ConflictError(CONFLICT_MESSAGE));
       } else {
         next(err);
       }
@@ -60,7 +66,7 @@ module.exports.createUser = (req, res, next) => {
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        throw new ConflictError('При регистрации указан email, который уже существует на сервере');
+        throw new ConflictError(CONFLICT_MESSAGE);
       } else {
         return bcrypt.hash(password, 10);
       }
@@ -76,7 +82,7 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.statusCode === 404 || err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
+        next(new BadRequestError(BAD_REQUEST_MESSAGE));
       } else {
         next(err);
       }
@@ -91,7 +97,7 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        NODE_ENV === 'production' ? JWT_SECRET : DEV_SECRET,
         { expiresIn: '7d' },
       );
       res.send({ token });
