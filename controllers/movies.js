@@ -9,9 +9,11 @@ const {
   NOT_FOUND_MESSAGE,
 } = require('../utils/constants');
 
-// получаем все фильмы
+// получаем все сохранённые текущим пользователем фильмы
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  const { _id } = req.user;
+
+  Movie.find({ owner: _id })
     .then((movie) => {
       res.send({ data: movie });
     })
