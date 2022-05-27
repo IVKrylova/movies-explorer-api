@@ -74,7 +74,7 @@ module.exports.deleteMovie = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError(BAD_REQUEST_MESSAGE));
-      } else if (err.statusCode === 404 || err.name === 'NotFoundError') {
+      } else if (err.name === 'NotFoundError') {
         next(new NotFoundError(NOT_FOUND_MESSAGE));
       } else {
         next(err);
