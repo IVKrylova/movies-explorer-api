@@ -63,7 +63,28 @@ module.exports.createUser = (req, res, next) => {
     name,
   } = req.body;
 
-  User.findOne({ email })
+  bcrypt.hash(password, 10)
+    .then((hash) => User.create({
+      email,
+      password: hash,
+      name,
+    }))
+    .then((user) => res.send({
+      email: user.email,
+      name: user.name,
+    }))
+    .catch((err) => {
+      if (err.statusCode === 404 || err.name === 'ValidationError') {
+        next(new BadRequestError(BAD_REQUEST_MESSAGE));
+      } else if (err.code === 11000) {
+        next(new ConflictError(CONFLICT_MESSAGE));
+      } else {
+        next(err);
+      }
+    });
+
+
+  /* User.findOne({ email })
     .then((user) => {
       if (user) {
         throw new ConflictError(CONFLICT_MESSAGE);
@@ -86,7 +107,7 @@ module.exports.createUser = (req, res, next) => {
       } else {
         next(err);
       }
-    });
+    }); */
 };
 
 // вход в приложение
