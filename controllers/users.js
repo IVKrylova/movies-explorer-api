@@ -41,6 +41,8 @@ module.exports.updateProfile = (req, res, next) => {
         next(new BadRequestError('Переданы некорректные данные при обновлении профиля'));
       } else if (err.statusCode === 404 || err.name === 'NotFoundError') {
         next(new NotFoundError('Пользователь с указанным _id не найден'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Указанный email уже зарегистрирован'));
       } else {
         next(err);
       }
