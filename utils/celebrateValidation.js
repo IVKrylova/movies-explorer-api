@@ -1,4 +1,5 @@
 const { Joi } = require('celebrate');
+const { checkUrl } = require('./utils');
 
 const postMoviesValidation = {
   body: Joi.object().keys({
@@ -7,12 +8,9 @@ const postMoviesValidation = {
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().uri()
-      .regex(/https?:\/\/(www.)?[\w\-.~:/?#[\]@!$&'()*+,;=]{1,256}\.[a-z0-9]{2,6}\b([-\w()@:%.+~#=//?&]*)/),
-    trailerLink: Joi.string().required().uri()
-      .regex(/https?:\/\/(www.)?[\w\-.~:/?#[\]@!$&'()*+,;=]{1,256}\.[a-z0-9]{2,6}\b([-\w()@:%.+~#=//?&]*)/),
-    thumbnail: Joi.string().required().uri()
-      .regex(/https?:\/\/(www.)?[\w\-.~:/?#[\]@!$&'()*+,;=]{1,256}\.[a-z0-9]{2,6}\b([-\w()@:%.+~#=//?&]*)/),
+    image: Joi.string().required().custom(checkUrl),
+    trailerLink: Joi.string().required().custom(checkUrl),
+    thumbnail: Joi.string().required().custom(checkUrl),
     movieId: Joi.number().integer().positive().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
