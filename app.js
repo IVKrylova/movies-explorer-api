@@ -21,11 +21,11 @@ app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// лимит запросов
-app.use(limiter);
-
 // подключаем логгер запросов
 app.use(requestLogger);
+
+// лимит запросов
+app.use(limiter);
 
 // CORS
 app.use(corsHandler);
