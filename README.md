@@ -4,6 +4,15 @@
 ## Описание
 Проект - API для аутентификации пользователей и сохранения фильмов в сервиесе Movies.
 
+## Запуск проекта
+`npm run start` — запускает сервер   
+`npm run dev` — запускает сервер с hot-reload
+
+## Демо
+К серверу можно обратиться по адресу: https://api.movies.ivkrylova.nomoredomains.xyz<br>
+Репозиторий с фронтендом можно посмотреть [здесь](https://github.com/IVKrylova/movies-explorer-frontend).<br>
+Готовый проект Movies можно посмотреть [здесь](https://movies.ivkrylova.nomoredomains.xyz/).
+
 ## Используемые технологии
 1. Express.js
 2. MongoDB
@@ -50,11 +59,3 @@
 * Настроены кросс-доменные запросы (CORS).
 * Ключи хранятся в файле .env
   
-## Запуск проекта
-`npm run start` — запускает сервер   
-`npm run dev` — запускает сервер с hot-reload
-
-## Демо
-К серверу можно обратиться по адресу: https://api.movies.ivkrylova.nomoredomains.xyz<br>
-Репозиторий с фронтендом можно посмотреть [здесь](https://github.com/IVKrylova/movies-explorer-frontend).<br>
-Готовый проект Movies можно посмотреть [здесь](https://movies.ivkrylova.nomoredomains.xyz/).
