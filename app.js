@@ -46,7 +46,7 @@ async function main() {
   await mongoose.connect(NODE_ENV === 'production' ? MONGODB_URL : MONGODB_URL_DEV);
 
   app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
+    console.log(`App is listening on port ${PORT}`);
   });
 }
 
