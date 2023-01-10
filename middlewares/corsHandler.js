@@ -1,7 +1,7 @@
 // домены, с которых разрешены кросс-доменные запросы
 const allowedCors = [
-  'http://movies.ivkrylova.nomoredomains.xyz',
-  'https://movies.ivkrylova.nomoredomains.xyz',
+  'http://ivkrylova-movies.fun',
+  'https://ivkrylova-movies.fun',
   'http://localhost:3000',
   'https://localhost:3000',
 ];
